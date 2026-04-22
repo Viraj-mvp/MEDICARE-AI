@@ -1,0 +1,147 @@
+[
+    {
+        "name": "Fever",
+        "category": "General",
+        "icon": "🌡️",
+        "description": "Elevated body temperature above normal range",
+        "commonDiseases": [
+            "Common Cold",
+            "Influenza",
+            "COVID-19",
+            "Gastroenteritis"
+        ],
+        "createdAt": "2026-02-02T10:30:00.000Z"
+    },
+    {
+        "name": "Cough",
+        "category": "Respiratory",
+        "icon": "😷",
+        "description": "Sudden expulsion of air from the lungs",
+        "commonDiseases": [
+            "Common Cold",
+            "Influenza",
+            "COVID-19",
+            "Bronchitis",
+            "Asthma"
+        ],
+        "createdAt": "2026-02-02T10:30:00.000Z"
+    },
+    {
+        "name": "Headache",
+        "category": "Neurological",
+        "icon": "🤕",
+        "description": "Pain in the head or upper neck",
+        "commonDiseases": [
+            "Migraine",
+            "Common Cold",
+            "Influenza",
+            "Hypertension"
+        ],
+        "createdAt": "2026-02-02T10:30:00.000Z"
+    },
+    {
+        "name": "Fatigue",
+        "category": "General",
+        "icon": "😴",
+        "description": "Extreme tiredness or lack of energy",
+        "commonDiseases": [
+            "Common Cold",
+            "Influenza",
+            "COVID-19",
+            "Anxiety Disorder",
+            "Depression"
+        ],
+        "createdAt": "2026-02-02T10:30:00.000Z"
+    },
+    {
+        "name": "Nausea",
+        "category": "Digestive",
+        "icon": "🤢",
+        "description": "Feeling of sickness with an urge to vomit",
+        "commonDiseases": [
+            "Gastroenteritis",
+            "Migraine",
+            "Gastric Reflux"
+        ],
+        "createdAt": "2026-02-02T10:30:00.000Z"
+    },
+    {
+        "name": "Dizziness",
+        "category": "Neurological",
+        "icon": "😵",
+        "description": "Feeling of lightheadedness or unsteadiness",
+        "commonDiseases": [
+            "Hypertension",
+            "Anxiety Disorder"
+        ],
+        "createdAt": "2026-02-02T10:30:00.000Z"
+    },
+    {
+        "name": "Chest Pain",
+        "category": "Cardiac",
+        "icon": "💔",
+        "description": "Discomfort or pain in the chest area",
+        "commonDiseases": [
+            "Hypertension",
+            "Gastric Reflux",
+            "Anxiety Disorder"
+        ],
+        "createdAt": "2026-02-02T10:30:00.000Z"
+    },
+    {
+        "name": "Shortness of Breath",
+        "category": "Respiratory",
+        "icon": "😮‍💨",
+        "description": "Difficulty breathing or feeling breathless",
+        "commonDiseases": [
+            "COVID-19",
+            "Asthma",
+            "Hypertension"
+        ],
+        "createdAt": "2026-02-02T10:30:00.000Z"
+    },
+    {
+        "name": "Sore Throat",
+        "category": "Respiratory",
+        "icon": "🗣️",
+        "description": "Pain or irritation in the throat",
+        "commonDiseases": [
+            "Common Cold",
+            "Influenza"
+        ],
+        "createdAt": "2026-02-02T10:30:00.000Z"
+    },
+    {
+        "name": "Body Aches",
+        "category": "General",
+        "icon": "💪",
+        "description": "Muscle pain or soreness",
+        "commonDiseases": [
+            "Influenza",
+            "COVID-19"
+        ],
+        "createdAt": "2026-02-02T10:30:00.000Z"
+    },
+    {
+        "name": "Runny Nose",
+        "category": "Respiratory",
+        "icon": "👃",
+        "description": "Excess nasal drainage",
+        "commonDiseases": [
+            "Common Cold",
+            "Allergic Rhinitis"
+        ],
+        "createdAt": "2026-02-02T10:30:00.000Z"
+    },
+    {
+        "name": "Abdominal Pain",
+        "category": "Digestive",
+        "icon": "🤰",
+        "description": "Pain in the stomach area",
+        "commonDiseases": [
+            "Gastroenteritis",
+            "Gastric Reflux"
+        ],
+        "createdAt": "2026-02-02T10:30:00.000Z"
+    }
+]
