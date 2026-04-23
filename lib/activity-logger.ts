@@ -31,7 +31,7 @@ export async function logActivity(
 
         await db.collection<ActivityLog>('activity_logs').insertOne(activity);
 
-        // Also append to physical log file if it exists/can be created
+        // File logging only works in environments with writable filesystem (not serverless)
         try {
             const logDir = path.join(process.cwd(), 'logs');
             if (!fs.existsSync(logDir)) {
@@ -41,8 +41,8 @@ export async function logActivity(
             const logLine = `[${activity.createdAt.toISOString()}] ACTION: ${action} | USER: ${userId || 'anonymous'} | IP: ${activity.ipAddress || 'unknown'} | DETAILS: ${JSON.stringify(details || {})}\n`;
             fs.appendFileSync(path.join(logDir, 'app.log'), logLine);
 
-        } catch (fsError) {
-            console.error('File logging error:', fsError);
+        } catch {
+            // Silently skip file logging on read-only filesystems (e.g., Netlify serverless)
         }
     } catch (error) {
         // Log error but don't throw - activity logging should not break the main flow

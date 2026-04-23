@@ -87,6 +87,13 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        if (error.message?.includes('JWT_SECRET') || error.message?.includes('MONGODB_URI')) {
+            return NextResponse.json(
+                { error: 'Server configuration error. Please contact support.' },
+                { status: 503 }
+            );
+        }
+
         return NextResponse.json(
             { error: 'Internal server error' },
             { status: 500 }

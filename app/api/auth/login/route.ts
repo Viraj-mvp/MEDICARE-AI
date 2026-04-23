@@ -68,12 +68,12 @@ export async function POST(req: NextRequest) {
         // Update last login timestamp and reset attempts
         await usersCollection.updateOne(
             { _id: user._id },
-            { 
-                $set: { 
+            {
+                $set: {
                     lastLogin: new Date(),
                     loginAttempts: 0,
                     lockUntil: null
-                } 
+                }
             }
         );
 
@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
         // Set HttpOnly Cookie
         // Use separate cookies for user and admin to support concurrent isolated sessions
         const cookieName = user.role === 'admin' ? 'admin_token' : 'token';
-        
+
         response.cookies.set({
             name: cookieName,
             value: token,
@@ -114,6 +114,13 @@ export async function POST(req: NextRequest) {
             return NextResponse.json(
                 { error: 'Invalid input', details: error.errors },
                 { status: 400 }
+            );
+        }
+
+        if (error.message?.includes('JWT_SECRET') || error.message?.includes('MONGODB_URI')) {
+            return NextResponse.json(
+                { error: 'Server configuration error. Please contact support.' },
+                { status: 503 }
             );
         }
 
