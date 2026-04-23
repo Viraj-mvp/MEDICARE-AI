@@ -8,6 +8,7 @@ import { Toaster } from "sonner";
 import { Suspense } from "react";
 import { LoadingOrbit } from "@/components/effects/LoadingOrbit";
 import MedicareAssistant from "@/components/chat/MedicareAssistant";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -43,6 +44,7 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <MedicareAssistant />
         </Suspense>
+        <Analytics />
       </body>
     </html>
   );
