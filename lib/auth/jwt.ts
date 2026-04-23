@@ -2,16 +2,23 @@ import bcrypt from 'bcryptjs';
 import { SignJWT, jwtVerify } from 'jose';
 import { NextRequest } from 'next/server';
 
-const secretText = process.env.JWT_SECRET || '';
-if (secretText.length < 64) {
-    throw new Error(
-        `FATAL: JWT_SECRET must be at least 64 characters long (current: ${secretText.length}). ` +
-        'Generate a secure secret with: node -e "console.log(require(\'crypto\').randomBytes(64).toString(\'hex\'))"'
-    );
-}
+let _secretText: string | null = null;
+
+const getSecretText = (): string => {
+    if (_secretText === null) {
+        _secretText = process.env.JWT_SECRET || '';
+        if (_secretText.length < 64) {
+            throw new Error(
+                `FATAL: JWT_SECRET must be at least 64 characters long (current: ${_secretText.length}). ` +
+                'Generate a secure secret with: node -e "console.log(require(\'crypto\').randomBytes(64).toString(\'hex\'))"'
+            );
+        }
+    }
+    return _secretText;
+};
 
 const getSecret = (): Uint8Array => {
-    return new TextEncoder().encode(secretText);
+    return new TextEncoder().encode(getSecretText());
 };
 
 export interface JWTPayload {

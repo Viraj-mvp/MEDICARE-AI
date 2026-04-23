@@ -6,14 +6,8 @@ import { jwtVerify } from 'jose';
 const protectedRoutes = ['/predict', '/dashboard', '/profile'];
 const adminRoutes = ['/developer', '/api/admin'];
 
-// Boot-time JWT_SECRET length validation
-const jwtSecret = process.env.JWT_SECRET || '';
-if (jwtSecret.length < 64) {
-    throw new Error(
-        `FATAL: JWT_SECRET must be at least 64 characters long (current: ${jwtSecret.length}). ` +
-        'Generate a secure secret with: node -e "console.log(require(\'crypto\').randomBytes(64).toString(\'hex\'))"'
-    );
-}
+// JWT_SECRET is validated at runtime inside the handler below and in lib/auth/jwt.ts
+// (not at module level, to avoid crashing the Next.js build phase)
 
 // CSP Header - Relaxed for development to allow IP-based access
 const isDev = process.env.NODE_ENV === 'development';
@@ -72,13 +66,13 @@ export async function middleware(request: NextRequest) {
     // 4. Auth Check for Protected Routes or Admin Route
     if (isProtected || isAdminRoute) {
         // Use separate cookies for isolation
-        const token = isAdminRoute 
-            ? request.cookies.get('admin_token')?.value 
+        const token = isAdminRoute
+            ? request.cookies.get('admin_token')?.value
             : request.cookies.get('token')?.value;
 
         if (!token) {
             console.log(`[Middleware] No token found for ${pathname}. Redirecting.`);
-            
+
             // For API routes, return 401 instead of redirecting
             if (pathname.startsWith('/api/')) {
                 return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
@@ -91,9 +85,19 @@ export async function middleware(request: NextRequest) {
         }
 
         try {
-            const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+            const jwtSecret = process.env.JWT_SECRET || '';
+            if (jwtSecret.length < 64) {
+                console.error(`[Middleware] JWT_SECRET is too short (${jwtSecret.length} chars, need 64). Rejecting request.`);
+                if (pathname.startsWith('/api/')) {
+                    return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
+                }
+                const url = request.nextUrl.clone();
+                url.pathname = '/auth';
+                return NextResponse.redirect(url);
+            }
+            const secret = new TextEncoder().encode(jwtSecret);
             const { payload } = await jwtVerify(token, secret);
-            
+
             // For admin routes, ensure role is admin
             if (isAdminRoute && payload.role !== 'admin') {
                 if (pathname.startsWith('/api/')) {
@@ -108,7 +112,7 @@ export async function middleware(request: NextRequest) {
             return response;
         } catch (error) {
             console.error(`[Middleware] Token verification failed for ${pathname}:`, error);
-            
+
             if (pathname.startsWith('/api/')) {
                 return NextResponse.json({ error: 'Invalid session' }, { status: 401 });
             }

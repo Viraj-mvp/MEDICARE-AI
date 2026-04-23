@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import clientPromise from '@/lib/db/mongodb';
+import { getDatabase } from '@/lib/db/mongodb';
 
 export async function POST(req: Request) {
     try {
@@ -10,9 +10,8 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
-        const client = await clientPromise;
-        const db = client.db('medicare_ai');
-        
+        const db = await getDatabase();
+
         await db.collection('prediction_feedback').insertOne({
             predictionId,
             diseaseName,
